@@ -1,6 +1,6 @@
 <?php
 
-namespace UserCredit\Service;
+namespace App\Service;
 
 class CacheService
 {

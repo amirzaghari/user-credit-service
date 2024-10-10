@@ -1,17 +1,16 @@
 <?php
 
-namespace UserCredit\Repository;
+namespace App\Repository;
 
-use UserCredit\Entity\Transaction;
+use App\Entity\Transaction;
 
 class TransactionRepository
 {
     private $transactions = [];
-    private $currentId = 1;
 
     public function addTransaction(int $userId, float $amount, \DateTime $date): Transaction
     {
-        $transaction = new Transaction($this->currentId++, $userId, $amount, $date);
+        $transaction = new Transaction($userId, $amount, $date);
         $this->transactions[] = $transaction;
         return $transaction;
     }

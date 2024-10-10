@@ -1,8 +1,8 @@
 <?php
 
-namespace UserCredit\Repository;
+namespace App\Repository;
 
-use UserCredit\Entity\User;
+use App\Entity\User;
 use Faker\Factory;
 
 class UserRepository
@@ -13,7 +13,9 @@ class UserRepository
     {
         $faker = Factory::create();
         for ($i = 1; $i <= 10; $i++) {
-            $this->users[$i] = new User($i, $faker->name, $faker->randomFloat(2, 0, 1000));
+            $user = new User($faker->name, $faker->randomFloat(2, 0, 1000));
+            $user->setId($i);
+            $this->users[$i] = $user;
         }
     }
 
@@ -32,5 +34,13 @@ class UserRepository
         if (isset($this->users[$id])) {
             $this->users[$id]->setCredit($newCredit);
         }
+    }
+
+    public function addUser(User $user): User
+    {
+        $index = count($this->users);
+        $user->setId($index);
+        $this->users[$index] = $user;
+        return $user;
     }
 }

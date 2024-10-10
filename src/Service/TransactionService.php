@@ -1,9 +1,10 @@
 <?php
 
-namespace UserCredit\Service;
+namespace App\Service;
 
-use UserCredit\Repository\UserRepository;
-use UserCredit\Repository\TransactionRepository;
+use App\Repository\UserRepository;
+use App\Repository\TransactionRepository;
+use App\Entity\Transaction;
 
 class TransactionService
 {
@@ -27,22 +28,52 @@ class TransactionService
         $user = $this->userRepository->findUserById($userId);
 
         if (!$user) {
-            throw new \Exception("User not found.");
+            throw new \UnexpectedValueException("User not found.");
         }
 
-        $this->transactionRepository.addTransaction($userId, $amount, $date);
+        $this->transactionRepository->addTransaction($userId, $amount, $date);
 
         $newCredit = $user->getCredit() + $amount;
         $this->userRepository->updateUserCredit($userId, $newCredit);
     }
 
-    public function getUserTransactionsForDate(int $userId, \DateTime $date): array
+    /**
+     * Get total transaction amount for a user on a specific date.
+     *
+     * @param int $userId
+     * @param \DateTime $date
+     * @return float
+     */
+    public function getUserTransactionsForDate(int $userId, \DateTime $date): float
     {
-        return $this->transactionRepository->getTransactionsByUserAndDate($userId, $date);
+        /** @var Transaction[] $transactions */
+        $transactions = $this->transactionRepository->getTransactionsByUserAndDate($userId, $date);
+
+        $total = 0.0;
+        foreach ($transactions as $transaction) {
+            $total += $transaction->getAmount();
+        }
+
+        return $total;
     }
 
-    public function getTotalTransactionsForAllUsersByDate(\DateTime $date): array
+    /**
+     * Get total transaction amount for all users on a specific date.
+     *
+     * @param \DateTime $date
+     * @return float
+     */
+    public function getTotalTransactionsForAllUsersByDate(\DateTime $date): float
     {
-        return $this->transactionRepository->getAllTransactionsByDate($date);
+        /** @var Transaction[] $transactions */
+        $transactions = $this->transactionRepository->getAllTransactionsByDate($date);
+
+        $total = 0.0;
+        foreach ($transactions as $transaction) {
+            $total += $transaction->getAmount();
+        }
+
+        return $total;
     }
 }
+

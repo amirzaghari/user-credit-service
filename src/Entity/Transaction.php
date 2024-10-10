@@ -1,6 +1,6 @@
 <?php
 
-namespace UserCredit\Entity;
+namespace App\Entity;
 
 class Transaction
 {
@@ -9,9 +9,8 @@ class Transaction
     private $amount;
     private $date;
 
-    public function __construct(int $id, int $userId, float $amount, \DateTime $date)
+    public function __construct(int $userId, float $amount, \DateTime $date)
     {
-        $this->id = $id;
         $this->userId = $userId;
         $this->amount = $amount;
         $this->date = $date;

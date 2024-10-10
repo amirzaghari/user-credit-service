@@ -1,6 +1,6 @@
 <?php
 
-namespace UserCredit\Entity;
+namespace App\Entity;
 
 class User
 {
@@ -8,11 +8,16 @@ class User
     private $name;
     private $credit;
 
-    public function __construct(int $id, string $name, float $credit)
+    public function __construct(string $name, float $credit)
     {
-        $this->id = $id;
         $this->name = $name;
         $this->credit = $credit;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getId(): int
@@ -34,4 +39,5 @@ class User
     {
         $this->credit = $credit;
     }
+
 }
