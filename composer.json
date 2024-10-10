@@ -1,0 +1,11 @@
+{
+    "name": "root/user-credit-service",
+    "autoload": {
+        "psr-4": {
+            "UserCredit\\": "src/"
+        }
+    },
+    "require": {
+        "fakerphp/faker": "^1.20"
+    }
+}
