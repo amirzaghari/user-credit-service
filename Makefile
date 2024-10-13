@@ -1,6 +1,7 @@
 # Build and run the Docker container
 build:
 	docker-compose up -d --build
+	docker-compose exec php composer install
 
 # Start the Docker container
 start:
